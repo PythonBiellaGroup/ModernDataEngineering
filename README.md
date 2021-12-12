@@ -14,6 +14,7 @@ This is just a test and sample experiment
 - Streamlit
 - Jupyter (for exploration)
 - Folium (for map visualization)
+- Pydantic
 
 ## Repository and code
 
@@ -31,6 +32,7 @@ Inside this repository you can find:
 - [Airflow official docker-compose version](https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml)
 - [Airflow production images and docker-compose](https://github.com/apache/airflow/issues/8605)
 - [Airflow with Redis and Celery](https://medium.com/codex/how-to-scale-out-apache-airflow-2-0-with-redis-and-celery-3e668e003b5c)
+- [Pydantic settings management](https://pydantic-docs.helpmanual.io/usage/settings/)
 
 If you want to **monitor and control** the ETL you have to connect to the web interface.
 - If you run this on a server don't forget to forward the port via ssh (see Useful commands section behind)
