@@ -17,5 +17,3 @@ col2.title("PBG App")
 
 # Add all your applications (pages) here (remember to import first)
 app.add_page("Home", start.app)
-
-app.run()
