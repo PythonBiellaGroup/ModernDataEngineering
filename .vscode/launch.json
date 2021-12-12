@@ -21,7 +21,7 @@
         "type": "python",
         "request": "launch",
         "module": "streamlit.cli",
-        "args": ["run", "${workspaceFolder}/main.py"],
+        "args": ["run", "${workspaceFolder}/app/main.py"],
         "cwd": "${workspaceFolder}",
         "env": {
             "PYTHONPATH": "${cwd}"

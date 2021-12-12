@@ -21,38 +21,37 @@ ENV YOUR_ENV=${YOUR_ENV} \
 # Install poetry dependencies
 RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y libpq-dev gcc curl
 
-# Install project libraries
-#ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
-
-# Install poetry - respects $POETRY_VERSION & $POETRY_HOME
-#RUN pip install "poetry==$POETRY_VERSION"
-
-# Install Poetry
+# System deps:
+# RUN pip install "poetry==$POETRY_VERSION"
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python && \
     cd /usr/local/bin && \
     ln -s /opt/poetry/bin/poetry && \
     poetry config virtualenvs.create false
 
-# Project Python definition
-WORKDIR /admin_app
-
-#Copy all the project files
-COPY pyproject.toml .
+# Copy only requirements to cache them in docker layer
+WORKDIR /streamlit
+COPY dashboard ./dashboard
 COPY poetry.lock .
-COPY /app ./app
-COPY /alembic ./alembic
-COPY .env .
+COPY pyproject.toml .
 COPY launch.sh .
-COPY launch_init.sh .
-COPY docs ./docs
-COPY mkdocs.yml .
+COPY launch_dev.sh .
+
+#update pip to avoid problems 
+# RUN python3 -m pip instal --upgrade pip
 
 # Project initialization:
 RUN poetry config virtualenvs.create false \
-    && poetry install $(test "$YOUR_ENV" = production) --no-root --no-dev --no-interaction --no-ansi
+    && poetry install $(test "$YOUR_ENV" == production && echo "--no-dev") --no-interaction --no-ansi
 
+#Streamlit configuration
+ENV PYTHONPATH /streamlit
+RUN mkdir -p /root/.streamlit
 
-#Launch the main (if required)
+# Copy streamlit production configuration
+COPY ./.streamlit/config.toml /root/.streamlit/config.toml
+
 RUN chmod +x launch.sh
-CMD ["bash", "launch.sh"]
-#CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:${APP_ENDPOINT_PORT:-8045}", "app.main:app"]
+RUN chmod +x launch_dev.sh
+
+# Launch etl and streamlit
+ENTRYPOINT ["/bin/bash", "./launch.sh"]
