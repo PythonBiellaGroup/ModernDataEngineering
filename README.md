@@ -6,6 +6,17 @@ In this repository we have created a dashboard for Lombardia Italian Healthcare 
 
 This is just a test and sample experiment
 
+## Status
+- Create DAGS for data import on different sources
+- Create DAGS for data manipulation
+- Ingest new data into db
+- Create visualization and analysis on streamlit dashboard
+
+Completed:
+- streamlit template
+- airflow cluster
+- project setup
+
 ## Tools
 
 - Python
