@@ -32,6 +32,11 @@ Inside this repository you can find:
 - [Airflow production images and docker-compose](https://github.com/apache/airflow/issues/8605)
 - [Airflow with Redis and Celery](https://medium.com/codex/how-to-scale-out-apache-airflow-2-0-with-redis-and-celery-3e668e003b5c)
 
+If you want to **monitor and control** the ETL you have to connect to the web interface.
+- If you run this on a server don't forget to forward the port via ssh (see Useful commands section behind)
+- Monitor executions of DAGs, available at: http://**ip**:8080/
+- Monitor celery execution: http://**ip**:5555
+
 
 ## Useful commands
 
@@ -65,3 +70,13 @@ docker-compose -f docker-compose.airflow.yml down --volumes --rmi all
 # launch all the project with a make file
 
 ```
+
+If you want to forward the port from the server to your machine (because everything here is not exposed on internet on PBG server) you can do:
+```bash
+ssh -L [LOCAL_IP:]LOCAL_PORT:DESTINATION:DESTINATION_PORT [USER@]SSH_SERVER
+
+#example (pbg server is defined into ssh config file)
+ssh -LN 8042:localhost:8080 pbg
+
+```
+You can add your machine configuration inside the ssh config file for your user: `~/.ssh/config`
