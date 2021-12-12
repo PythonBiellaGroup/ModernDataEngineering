@@ -15,6 +15,7 @@ requests = "^2.26.0"
 pyaml = "^21.8.3"
 pandas = "^1.3.3"
 Unidecode = "^1.3.2"
+streamlit = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"
@@ -30,6 +31,8 @@ flake8-mypy = "ˆ17.8.0"
 sqlalchemy-stubs = "^0.3"
 pytest-cov = "^2.8.1"
 autoflake = "^1.3.1"
+jupyter = "^1.0.0"
+jupyterlab = "^3.2.5"
 
 [tool.isort]
 multi_line_output = 3
