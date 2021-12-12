@@ -28,6 +28,7 @@ Inside this repository you can find:
 - [PythonBiellaGroup website for poetry and other configurations](https://pythonbiellagroup.it)
 - [Airflow official documentation](https://airflow.apache.org/docs/apache-airflow/stable/concepts/overview.html)
 - [Airflow docker getting started](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html)
+- [Airflow official docker-compose version](https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml)
 - [Airflow production images and docker-compose](https://github.com/apache/airflow/issues/8605)
 - [Airflow with Redis and Celery](https://medium.com/codex/how-to-scale-out-apache-airflow-2-0-with-redis-and-celery-3e668e003b5c)
 
@@ -42,6 +43,10 @@ docker-compose -f docker-compose.airflow.yml up --build -d
 
 # launch the streamlit application
 
+# stop or remove all the docker containers for a specific dockerfile configuration
+docker-compose -f docker-compose.airflow.yml stop  #if you want to stop them
+docker-compose -f docker-compose.airflow.yml rm #if you want to remove them
+
 # visualize the informations of docker container running and not
 docker ps -a
 
@@ -54,7 +59,9 @@ docker exec -it <container name> /bin/bash
 # inspect a container and get all the informations
 docker inspect <container name>
 
-# launch all the project with a make file
+# stop containers and delete volumes
+docker-compose -f docker-compose.airflow.yml down --volumes --rmi all
 
+# launch all the project with a make file
 
 ```
