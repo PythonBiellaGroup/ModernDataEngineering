@@ -2,9 +2,7 @@ import requests
 import pandas as pd
 import os
 import json
-import sqlalchemy
 from sqlalchemy import create_engine
-import urllib
 import urllib.parse
 
 current_dir = os.getcwd()
@@ -44,3 +42,10 @@ def rename_columns(df):
 rename_columns(df_georef_strutture)
 drop_columns(df_georef_strutture)
 
+#Load into staging area: this process has to be executed in parallel with etl-anagrafica-ospedali and bef
+
+cxn= establish_db_connection()
+truncate_query = sqlalchemy.text("TRUNCATE TABLE STG_GEOREF_STRUTTURE")
+cxn.execution_options(autocommit=True).execute(truncate_query)
+df_georef_strutture.to_sql('STG_GEOREF_STRUTTURE',con=cxn,if_exists = 'append',index=False)
+cxn.dispose()

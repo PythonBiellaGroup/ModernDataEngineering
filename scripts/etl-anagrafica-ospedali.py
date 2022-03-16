@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import numpy as np
+from sqlalchemy import create_engine
 
 current_dir = os.getcwd()
 extract_folder = os.path.join(current_dir, 'data/ospedali.csv')
@@ -64,4 +65,29 @@ add_descr_liv_emergenza(df_ospedali)
 drop_columns(df_ospedali)
 rename_columns(df_ospedali)
 
+#reorganize columns orders
+df_ospedali = df_ospedali[['COD_STRUTTURA',
+'DENOM_STRUTTURA',
+'COD_ATS',
+'COD_ENTE',
+'DENOM_ENTE',
+'COD_TIPO_STR',
+'DESCR_TIPO_STR',
+'DATA_APERTURA',
+'DATA_CHIUSURA',
+'INDIRIZZO',
+'CAP',
+'LOCALITA',
+'FAX',
+'LIV_EMERG',
+'DESCR_LIV_EMERG',
+'PS_PEDIATRICO'
+]]
+
 # Load data
+#Write data into the table in AZURE SQL Server database
+cxn= establish_db_connection()
+truncate_query = sqlalchemy.text("TRUNCATE TABLE STG_ANG_HOSPITAL")
+cxn.execution_options(autocommit=True).execute(truncate_query)
+df_ospedali.to_sql('STG_ANG_HOSPITAL',con=cxn,if_exists = 'append',index=False)
+cxn.dispose()
