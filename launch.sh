@@ -1,2 +1,4 @@
 export PYTHONPATH=$(pwd)
-streamlit run dashboard/main.py
+export VERBOSITY=DEBUG
+streamlit run app/main.py
+#python3 app/main.py
