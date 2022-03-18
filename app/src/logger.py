@@ -5,8 +5,7 @@
 import logging  # using standard library
 import os
 
-# VERBOSITY = info as default, #debug for local dev
-from app.src.common.config import Settings
+
 from logging.handlers import RotatingFileHandler
 
 # from logging.handlers import TimeRotatingFileHandler
@@ -16,16 +15,16 @@ from logging.handlers import RotatingFileHandler
 
 # Set the logs costants (You can use env var)
 # -------------------------------------------------
-APP_VERBOSITY = Settings().verbosity
-
+# VERBOSITY = info as default, #debug for local dev
+VERBOSITY = os.getenv("VERBOSITY", "debug")
 LOG_PATH = os.getenv("LOG_PATH", "./logs")  # logs folder
-LOGGER_FILENAME = os.getenv("LOG_FILE_NAME", "app.log")
-FILE_TIME_WHEN = os.getenv("LOG_FILE_TIME_WHEN", "D")  # Days
-FILE_TIME_INTERVAL = int(os.getenv("LOG_FILE_TIME_INTERVAL", 30))
-FILE_BACKUP_COUNT = int(os.getenv("LOG_FILE_BACKUP_COUNT", 12))  # Number of backup
-FILE_MAX_BYTES = int(os.getenv("LOG_FILE_MAX_BYTES", 100 * 1024 * 1024))  # 100 MB
-FILE_ENCODING = os.getenv("LOG_FILE_ENCODINGS", "utf-8")
-FILE_DELAY = bool(os.getenv("LOG_FILE_DELAY", False))
+LOGGER_FILENAME = "daemon.log"
+FILE_TIME_WHEN = "D"  # Days
+FILE_TIME_INTERVAL = 30
+FILE_BACKUP_COUNT = 12  # Number of backup
+FILE_MAX_BYTES = 100 * 1024 * 1024  # 100 MB
+FILE_ENCODING = "utf-8"
+FILE_DELAY = False
 
 # shell formatter syntax
 SHELL_FORMATTER_SYNTAX = "%(asctime)s (%(levelname)s) \t| %(message)s"
@@ -42,7 +41,7 @@ FILE_LOG_PATH = os.path.join(LOG_PATH, LOGGER_FILENAME)
 logger = logging.getLogger(__name__)
 
 # For your application you can just use this: from logger import logger
-log_name = APP_VERBOSITY.upper().strip()
+log_name = VERBOSITY.upper().strip()
 log_level = logging.getLevelName(log_name)
 
 # handler for shell
