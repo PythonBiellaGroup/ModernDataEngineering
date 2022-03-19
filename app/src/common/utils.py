@@ -9,7 +9,7 @@ import unidecode
 import numpy as np
 import pandas as pd
 
-from app.src.common.logger import logger
+from app.src.logger import logger
 
 
 # Conversions
@@ -67,8 +67,8 @@ def parsedates_withhour(column):
     column_stripped = column.astype(str).str.strip()
     try:
         return pd.to_datetime(column_stripped, format="%d/%m/%Y %H:%M:%S")
-    except Exception:
-        logger.warning(f"date {column.name} has wrong format!")
+    except Exception as message:
+        logger.warning(f"date {column.name} has wrong format! {message}")
         return pd.to_datetime(
             column_stripped, format="%d/%m/%Y %H:%M:%S", errors="coerce"
         )
@@ -89,9 +89,9 @@ def as_list(x):
         return [x]
 
 
-def logger_list(logger_list, l_name="", level="DEBUG"):
+def logging_list(log_list, l_name="", level="DEBUG"):
     logger.log(getattr(logger, level), l_name)
-    for i in sorted(logger_list):
+    for i in sorted(log_list):
         logger.log(getattr(logger, level), i)
     logger.log(getattr(logger, level), "")
 
@@ -102,6 +102,14 @@ def remove_columns(dataset, cols):
     cols = [c for c in cols if c in dataset.columns]
     dataset = dataset.drop(cols, axis=1)
     return dataset
+
+
+def keep_columns(df, cols):
+    if isinstance(cols, str):
+        cols = [cols]
+    cols = [c for c in cols if c in df.columns]
+    df = df.loc[:, cols]
+    return df
 
 
 def keep_only_columns(dataset, cols):
@@ -185,9 +193,17 @@ def remove_special_characters(s):
 
 
 # Yaml Library and functions
+def get_folder_path(custom_path: str = "", force_creation: bool = False) -> str:
+    """Get the folder absolute path starting from a relative path of your python launch file.
+    This function is os independent, so it's possibile to use everywherre
 
+    Args:
+        custom_path (str, optional): The relative path of your path search. Defaults to "".
+        force_creation (bool, optional): if the path doesn't exist, force the creation of the folder. Defaults to False.
 
-def get_folder_path(custom_path="", force_creation=False):
+    Returns:
+        str: The absolute path you want to search
+    """
 
     if custom_path == "" or custom_path is None:
         BASEPATH = os.path.abspath("")
@@ -208,9 +224,17 @@ def get_folder_path(custom_path="", force_creation=False):
     return BASEPATH
 
 
-def checkpath(to_path, filename):
+def checkpath(to_path: str, filename: str) -> str:
     """
     Check path and filename
+    Search a specific filename into a folder path
+
+    Args:
+        to_path (str): path where you want to search
+        filename (str): filename
+
+    Returns:
+        str: the path where the file is
     """
     try:
         if to_path == "" or to_path is None:
@@ -219,20 +243,26 @@ def checkpath(to_path, filename):
         if filename == "" or filename is None:
             filename = "result.yml"
 
-        if not re.search(r"yml", filename):
+        if re.search(r"yml", filename) is False:
             filename = filename + ".yml"
 
         file_path = os.path.join(to_path, filename)
         return file_path
 
-    except Exception:
-        logger.error(f"Path: {to_path}, or filename: {filename} not found")
+    except Exception as message:
+        logger.error(f"Path: {to_path}, or filename: {filename} not found: {message}")
         return None
 
 
-def read_yaml(file_path, filename=""):
-    """
-    Read a yaml file from disk
+def read_yaml(file_path: str, filename: str = "") -> dict:
+    """Read a yaml file from disk
+
+    Args:
+        file_path (str): path where you want to load
+        filename (str, optional): Name of the file you want to load. Defaults to "".
+
+    Returns:
+        dict: The dictionary readed from the yaml file
     """
     file_path = checkpath(file_path, filename)
 
@@ -250,9 +280,18 @@ def read_yaml(file_path, filename=""):
         return None
 
 
-def write_dataset_yaml(to_path="", filename="", dataset=None):
-    """
-    Write a pandas dataset to yaml
+def write_dataset_yaml(
+    to_path: str = "", filename: str = "", dataset: pd.DataFrame = None
+) -> bool:
+    """Write a pandas dataset to yaml
+
+    Args:
+        to_path (str, optional): Path where you want to save the yaml file. Defaults to "".
+        filename (str, optional): Name of the file to use. Defaults to "".
+        dataset (pd.DataFrame, optional): Pandas dataframe to save. Defaults to None.
+
+    Returns:
+        bool: If the
     """
     file_path = checkpath(to_path, filename)
 
