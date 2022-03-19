@@ -1,8 +1,8 @@
 FROM python:3.8
 
 # Metadata
-LABEL name="Streamlit dashboard"
-LABEL maintainer="PBG"
+LABEL name={{cookiecutter.project}}
+LABEL maintainer={{cookiecutter.author}}
 LABEL version="0.1"
 
 ARG YOUR_ENV="virtualenv"
@@ -14,44 +14,40 @@ ENV YOUR_ENV=${YOUR_ENV} \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=1.1.8 \
+    POETRY_VERSION=1.1.13 \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
 
 # Install poetry dependencies
 RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y libpq-dev gcc curl
 
-# System deps:
-# RUN pip install "poetry==$POETRY_VERSION"
+# Install project libraries
+#ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+
+# Install poetry - respects $POETRY_VERSION & $POETRY_HOME
+#RUN pip install "poetry==$POETRY_VERSION"
+
+# Install Poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python && \
     cd /usr/local/bin && \
     ln -s /opt/poetry/bin/poetry && \
     poetry config virtualenvs.create false
 
-# Copy only requirements to cache them in docker layer
-WORKDIR /streamlit
-COPY dashboard ./dashboard
-COPY poetry.lock .
-COPY pyproject.toml .
-COPY launch.sh .
-COPY launch_dev.sh .
+# Project Python definition
+WORKDIR /{{cookiecutter.project}}
 
-#update pip to avoid problems 
-# RUN python3 -m pip instal --upgrade pip
+#Copy all the project files
+COPY pyproject.toml .
+COPY poetry.lock .
+COPY /app ./app
+COPY /data ./data
+COPY launch.sh .
 
 # Project initialization:
 RUN poetry config virtualenvs.create false \
-    && poetry install $(test "$YOUR_ENV" == production && echo "--no-dev") --no-interaction --no-ansi
+    && poetry install $(test "$YOUR_ENV" = production) --no-root --no-dev --no-interaction --no-ansi
 
-#Streamlit configuration
-ENV PYTHONPATH /streamlit
-RUN mkdir -p /root/.streamlit
 
-# Copy streamlit production configuration
-COPY ./.streamlit/config.toml /root/.streamlit/config.toml
-
+#Launch the main (if required)
 RUN chmod +x launch.sh
-RUN chmod +x launch_dev.sh
-
-# Launch etl and streamlit
-ENTRYPOINT ["/bin/bash", "./launch.sh"]
+CMD ["bash", "launch.sh"]
