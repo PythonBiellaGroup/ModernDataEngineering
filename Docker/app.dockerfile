@@ -1,8 +1,8 @@
 FROM python:3.8
 
 # Metadata
-LABEL name={{cookiecutter.project}}
-LABEL maintainer={{cookiecutter.author}}
+LABEL name="Journal Finder Test UI"
+LABEL maintainer="MDPI AI Team"
 LABEL version="0.1"
 
 ARG YOUR_ENV="virtualenv"
@@ -16,37 +16,24 @@ ENV YOUR_ENV=${YOUR_ENV} \
     PIP_DEFAULT_TIMEOUT=100 \
     POETRY_VERSION=1.1.13 \
     LC_ALL=C.UTF-8 \
-    LANG=C.UTF-8
-
-# Install poetry dependencies
-RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y libpq-dev gcc curl
-
-# Install project libraries
-#ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
-
-# Install poetry - respects $POETRY_VERSION & $POETRY_HOME
-#RUN pip install "poetry==$POETRY_VERSION"
-
-# Install Poetry
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python && \
-    cd /usr/local/bin && \
-    ln -s /opt/poetry/bin/poetry && \
-    poetry config virtualenvs.create false
+    LANG=C.UTF-8 \
+    PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH" 
 
 # Project Python definition
-WORKDIR /{{cookiecutter.project}}
+WORKDIR /mde
 
 #Copy all the project files
 COPY pyproject.toml .
 COPY poetry.lock .
+
+RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
+    vim libpq-dev gcc curl openssh-client git unixodbc-dev libxml2-dev libxslt1-dev zlib1g-dev g++\
+    && pip install "poetry==$POETRY_VERSION" \
+    && poetry config virtualenvs.create false \
+    && poetry install $(test "$YOUR_ENV" = production) --no-interaction --no-ansi
+
 COPY /app ./app
-COPY /data ./data
-COPY launch.sh .
-
-# Project initialization:
-RUN poetry config virtualenvs.create false \
-    && poetry install $(test "$YOUR_ENV" = production) --no-root --no-dev --no-interaction --no-ansi
-
+COPY ./scripts/launch.sh .
 
 #Launch the main (if required)
 RUN chmod +x launch.sh

@@ -1,8 +1,9 @@
-from sqlalchemy import create_engine
+
 import urllib
-import urllib.parse
 import pyodbc
 import pandas as pd
+from sqlalchemy import create_engine
+from .config import settings
 
 
 def establish_db_connection():
@@ -30,11 +31,7 @@ def establish_db_connection():
     return engine
 
 
-def establish_external_db_connection():
-    server = "airadav-work.database.windows.net"
-    database = "external_database"
-    username = "admindav"
-    password = "Password01"
+def establish_external_db_connection(server: str = settings.DB_SERVER, database: str = settings.DB_NAME, username: str = settings.DB_USER, password: str = settings.DB_PASSWORD):
 
     driver = "{ODBC Driver 17 for SQL Server}"
 

@@ -12,7 +12,7 @@ This is just a test and sample experiment
 - Ingest new data into db
 - Create visualization and analysis on streamlit dashboard
 
-Completed:
+Completed
 - streamlit template
 - airflow cluster
 - project setup
@@ -26,6 +26,7 @@ Completed:
 - Jupyter (for exploration)
 - Folium (for map visualization)
 - Pydantic
+- Sqlalchemy (pyodbc)
 
 ## Repository and code
 
@@ -35,20 +36,6 @@ Inside this repository you can find:
 2. The streamlit application (inside the app folder)
 3. The visual studio code dev container
 4. Some notebooks and queries for explorative analysis
-
-## Useful Documentation
-- [PythonBiellaGroup website for poetry and other configurations](https://pythonbiellagroup.it)
-- [Airflow official documentation](https://airflow.apache.org/docs/apache-airflow/stable/concepts/overview.html)
-- [Airflow docker getting started](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html)
-- [Airflow official docker-compose version](https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml)
-- [Airflow production images and docker-compose](https://github.com/apache/airflow/issues/8605)
-- [Airflow with Redis and Celery](https://medium.com/codex/how-to-scale-out-apache-airflow-2-0-with-redis-and-celery-3e668e003b5c)
-- [Pydantic settings management](https://pydantic-docs.helpmanual.io/usage/settings/)
-
-If you want to **monitor and control** the ETL you have to connect to the web interface.
-- If you run this on a server don't forget to forward the port via ssh (see Useful commands section behind)
-- Monitor executions of DAGs, available at: http://**ip**:8080/
-- Monitor celery execution: http://**ip**:5555
 
 
 ## Useful commands
@@ -93,3 +80,48 @@ ssh -LN 8042:localhost:8080 pbg
 
 ```
 You can add your machine configuration inside the ssh config file for your user: `~/.ssh/config`
+
+
+## Considerations,  errors and problems
+
+Collection of comments, info and problems that we found during the development and how to fix them
+
+**pyodbc**
+
+To use **pyodbc** on linux you have to install the following dependencies:
+`sudo apt install unixodbc-dev`
+
+We suggest also on linux and docker to install those packages:
+```
+sudo apt install vim libpq-dev gcc curl openssh-client git unixodbc-dev libxml2-dev libxslt1-dev zlib1g-dev g++
+```
+
+**psycopg library**
+
+To use the system with psycopg2 for the postgres database connection it's important to install in your system (linux-based) the requirements: `sudo apt-get install libpq-dev`
+
+To launch the project from terminal if you are on the project root you have to do: `PYTHONPATH="./" python ./test/<name of the script>.py`
+
+Be carefull not to install virtualenv via `apt` on linux, but use virtualenv by `pip`.
+
+## Useful Documentation
+- [PythonBiellaGroup website for poetry and other configurations](https://pythonbiellagroup.it)
+- [Airflow official documentation](https://airflow.apache.org/docs/apache-airflow/stable/concepts/overview.html)
+- [Airflow docker getting started](https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html)
+- [Airflow official docker-compose version](https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml)
+- [Airflow production images and docker-compose](https://github.com/apache/airflow/issues/8605)
+- [Airflow custom docker image](https://airflow.apache.org/docs/docker-stack/build.html)
+- [Running airflow in docker](https://airflow.apache.org/docs/apache-airflow/2.1.3/start/docker.html)
+- [Airflow Production Deployment](https://airflow.apache.org/docs/apache-airflow/1.10.14/production-deployment.html)
+- [Airflow with Redis and Celery](https://medium.com/codex/how-to-scale-out-apache-airflow-2-0-with-redis-and-celery-3e668e003b5c)
+- [Pydantic settings management](https://pydantic-docs.helpmanual.io/usage/settings/)
+
+If you want to **monitor and control** the ETL you have to connect to the web interface.
+- If you run this on a server don't forget to forward the port via ssh (see Useful commands section behind)
+- Monitor executions of DAGs, available at: http://**ip**:8080/
+- Monitor celery execution: http://**ip**:5555
+
+Default credentials for Airflow web interface:
+- user: Airflow
+- password: airflow
+

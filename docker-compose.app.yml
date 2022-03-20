@@ -5,16 +5,14 @@ services:
       dockerfile: ./Docker/app.dockerfile
       context: .
     container_name: mdp-dashboard
-    env_file:
-      - .env
     restart: always
     environment:
       VERBOSITY: ${VERBOSITY:-INFO}
     ports:
       - "8501:8501"
-    volumes:
+    # volumes:
       # persist the data of the dasbhboard
-      - ${DEPLOY_VOLUMES_DIR:-/opt/streamlit}:/streamlit/data
+      # - ${DEPLOY_VOLUMES_DIR:-/opt/streamlit}:/streamlit/data
 
-volumes:
-  dashboard-data: null
+# volumes:
+#   dashboard-data: null
