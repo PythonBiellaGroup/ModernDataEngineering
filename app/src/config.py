@@ -2,9 +2,8 @@
 # Next step is converting to a pydantic config class
 
 import os
-import secrets
-from typing import List, Any, Dict, Optional, Union, Tuple
-from pydantic import AnyHttpUrl, BaseSettings, EmailStr, PostgresDsn, validator
+from typing import Tuple
+from pydantic import BaseSettings
 from pydantic.env_settings import SettingsSourceCallable
 
 
@@ -15,18 +14,16 @@ class Settings(BaseSettings):
     - https://pydantic-docs.helpmanual.io/usage/settings/
     """
 
-    
     APP_NAME: str = "ui"
 
     # Application Path
     APP_PATH: str = os.path.abspath(".")
 
     # Path for optional app configurations
-    CONFIG_PATH: str = os.path.join(APP_PATH, "app", "config")    
+    CONFIG_PATH: str = os.path.join(APP_PATH, "app", "config")
     STATIC_PATH: str = os.path.join(APP_PATH, "app", "static")
     DATA_PATH: str = os.path.join(APP_PATH, "data")
 
-    
     APP_VERBOSITY: str = "DEBUG"
 
     class Config:

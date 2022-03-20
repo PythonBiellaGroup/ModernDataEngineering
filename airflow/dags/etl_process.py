@@ -1,5 +1,4 @@
 import datetime
-from datetime import timedelta
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
@@ -8,9 +7,9 @@ from airflow.hooks.base_hook import BaseHook
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    #'on_failure_callback': task_fail_slack_alert,
+    # 'on_failure_callback': task_fail_slack_alert,
     'retries': 1,
-    'retry_delay': timedelta(minutes=1),
+    'retry_delay': datetime.timedelta(minutes=1),
     'email': ['andrea.guzzo92@gmail.com'],
     'email_on_failure': False,
     'email_on_retry': False,

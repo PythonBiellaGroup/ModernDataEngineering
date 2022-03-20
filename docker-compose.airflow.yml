@@ -25,7 +25,10 @@
 version: '3.9'
 x-airflow-common:
   &airflow-common
-  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.2.2}
+  # image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.2.2}
+  build:
+      dockerfile: ./Docker/airflow.dockerfile
+      context: .
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -54,7 +57,9 @@ x-airflow-common:
 
 services:
   postgres:
-    image: postgres:13
+    build:
+      dockerfile: ./Docker/db.dockerfile
+      context: .
     #container_name: mde-postgres
     environment:
       POSTGRES_USER: airflow
