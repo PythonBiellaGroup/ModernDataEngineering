@@ -27,7 +27,6 @@ logs
 *.csv
 !.devcontainer
 !.flake8
-poetry.lock
 
 ##########################################
 #### > PyCharm e JetBrains con JIRA  #####
