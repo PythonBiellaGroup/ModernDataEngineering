@@ -1,26 +1,3 @@
-# Official version of docker compose for airflow (read the readme for the link and informations)
-# Basic Airflow cluster configuration for CeleryExecutor with Redis and PostgreSQL.
-#
-# WARNING: This configuration is for local development. Do not use it in a production deployment.
-#
-# This configuration supports basic configuration using environment variables or an .env file
-# The following variables are supported:
-#
-# AIRFLOW_IMAGE_NAME           - Docker image name used to run Airflow.
-#                                Default: apache/airflow:2.2.2
-# AIRFLOW_UID                  - User ID in Airflow containers
-#                                Default: 50000
-# Those configurations are useful mostly in case of standalone testing/running Airflow in test/try-out mode
-#
-# _AIRFLOW_WWW_USER_USERNAME   - Username for the administrator account (if requested).
-#                                Default: airflow
-# _AIRFLOW_WWW_USER_PASSWORD   - Password for the administrator account (if requested).
-#                                Default: airflow
-# _PIP_ADDITIONAL_REQUIREMENTS - Additional PIP requirements to add when starting all containers.
-#                                Default: ''
-#
-# Feel free to modify this file to suit your needs.
-
 # Global general configurations
 version: '3.9'
 x-airflow-common:
@@ -99,12 +76,15 @@ services:
           "CMD",
           "curl",
           "--fail",
-          "http://localhost:8080/health"
+          "http://host.docker.internal:8080/health"
         ]
+        #"http://localhost:8080/health"
       interval: 10s
       timeout: 10s
       retries: 5
     restart: always
+    extra_hosts: 
+      - "host.docker.internal:host-gateway"
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -282,5 +262,4 @@ services:
 
 volumes:
   postgres-db-volume:
-
     null
