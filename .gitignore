@@ -28,6 +28,9 @@ logs
 !.devcontainer
 !.flake8
 
+settings/.env
+scripts/*
+
 ##########################################
 #### > PyCharm e JetBrains con JIRA  #####
 ##########################################

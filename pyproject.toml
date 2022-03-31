@@ -22,6 +22,7 @@ azure-storage-blob = "^12.9.0"
 sodapy = "^2.1.0"
 pyodbc = "^4.0.32"
 apache-airflow = "2.2.4"
+openpyxl = "^3.0.9"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"
