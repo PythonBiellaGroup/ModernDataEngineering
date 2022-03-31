@@ -31,6 +31,7 @@ logs
 settings/.env
 scripts/*
 notebooks/*
+Sanità_Lombardia.ipynb
 
 ##########################################
 #### > PyCharm e JetBrains con JIRA  #####
