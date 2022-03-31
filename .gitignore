@@ -30,6 +30,7 @@ logs
 
 settings/.env
 scripts/*
+notebooks/*
 
 ##########################################
 #### > PyCharm e JetBrains con JIRA  #####
