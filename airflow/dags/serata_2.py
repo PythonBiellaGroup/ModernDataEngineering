@@ -6,7 +6,7 @@ from airflow.exceptions import AirflowSensorTimeout
 from airflow.operators.dummy import DummyOperator
 from airflow.contrib.sensors.file_sensor import FileSensor
 
-from airflow.jobs import extract_blob
+from .jobs import extract_blob
 
 FILE_PATH = "/opt/airflow/data"
 
@@ -27,7 +27,6 @@ def _failure_callback(context):
     if isinstance(context["exception"], AirflowSensorTimeout):
         print(context)
     print("Sensor timed out")
-
 
 
 dag = DAG(
