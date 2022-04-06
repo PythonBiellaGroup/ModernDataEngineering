@@ -31,4 +31,8 @@ class Settings(BaseSettings):
 
 
 # define the settings
+<<<<<<< HEAD
 settings = Settings()
+=======
+settings = Settings()
+>>>>>>> b2bf0647d9d135dadefe40829212c47c76cba078

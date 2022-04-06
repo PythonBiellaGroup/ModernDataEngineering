@@ -6,6 +6,8 @@ In this repository we have created a dashboard for Lombardia Italian Healthcare 
 
 This is just a test and sample experiment
 
+<<<<<<< HEAD
+=======
 ## What we talk
 
 1. how to define the cluster
@@ -16,6 +18,7 @@ This is just a test and sample experiment
 6. xcom transfer
 7. plugins
 
+>>>>>>> b2bf0647d9d135dadefe40829212c47c76cba078
 ## Status
 - Create DAGS for data import on different sources
 - Create DAGS for data manipulation

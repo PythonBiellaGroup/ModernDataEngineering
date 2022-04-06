@@ -27,11 +27,15 @@ logs
 *.csv
 !.devcontainer
 !.flake8
+<<<<<<< HEAD
+poetry.lock
+=======
 
 settings/.env
 scripts/*
 notebooks/*
 Sanità_Lombardia.ipynb
+>>>>>>> b2bf0647d9d135dadefe40829212c47c76cba078
 
 ##########################################
 #### > PyCharm e JetBrains con JIRA  #####
