@@ -6,6 +6,16 @@ In this repository we have created a dashboard for Lombardia Italian Healthcare 
 
 This is just a test and sample experiment
 
+## What we talk
+
+1. how to define the cluster
+2. how to create a simple dag
+3. tasks and operators
+4. dummy operators and file sensors
+5. scheduling
+6. xcom transfer
+7. plugins
+
 ## Status
 - Create DAGS for data import on different sources
 - Create DAGS for data manipulation

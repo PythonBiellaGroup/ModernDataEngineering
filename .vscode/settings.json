@@ -5,5 +5,12 @@
   "python.linting.enabled": true,
   "python.testing.pytestArgs": ["test"],
   "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "window.title": "Modern Data Engineering | ${rootName} ${separator} ${activeEditorShort}",
+  "workbench.colorCustomizations": {
+    "editorRuler.foreground": "#ff4081",
+    "activityBar.background": "#bc3116",
+    "titleBar.activeBackground": "#bc3116",
+    "titleBar.activeForeground": "#FBFBF2"
+  }
 }
