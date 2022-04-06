@@ -21,6 +21,11 @@ selenium = "^4.1.0"
 azure-storage-blob = "^12.9.0"
 sodapy = "^2.1.0"
 pyodbc = "^4.0.32"
+<<<<<<< HEAD
+=======
+apache-airflow = "2.2.4"
+openpyxl = "^3.0.9"
+>>>>>>> b2bf0647d9d135dadefe40829212c47c76cba078
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"

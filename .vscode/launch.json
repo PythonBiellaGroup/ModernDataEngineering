@@ -20,7 +20,7 @@
       "name": "Python: Streamlit",
       "type": "python",
       "request": "launch",
-      "module": "streamlit.cli",
+      "module": "streamlit",
       "args": ["run", "${workspaceFolder}/app/main.py"],
       "cwd": "${workspaceFolder}",
       "env": {

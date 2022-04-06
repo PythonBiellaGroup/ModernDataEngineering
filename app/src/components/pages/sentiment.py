@@ -38,7 +38,6 @@ def app():
             )
             col1, col2, col3 = st.columns(3)
             if col1.button("Test button", key="test_button"):
-                
                 st.write(f"This is just a test button")
 
             if col2.button("Launch Vader Analysis", key="button_vader"):

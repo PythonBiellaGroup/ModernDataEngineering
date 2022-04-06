@@ -7,14 +7,14 @@ with open("connections.yml", "r") as f:
 for connection_name, connection in connection_dict.items():
     conn = Connection(
         conn_id=connection_name,
-        conn_type=connection.get('conn_type'),
-        host=connection.get('host'),
-        login=connection.get('login'),
-        password=connection.get('password'),
-        port=connection.get('port'),
-        schema=connection.get('schema'),
-        extra=connection.get('extra')
-    ) 
+        conn_type=connection.get("conn_type"),
+        host=connection.get("host"),
+        login=connection.get("login"),
+        password=connection.get("password"),
+        port=connection.get("port"),
+        schema=connection.get("schema"),
+        extra=connection.get("extra"),
+    )
     session = settings.Session
     session.add(conn)
     session.commit()

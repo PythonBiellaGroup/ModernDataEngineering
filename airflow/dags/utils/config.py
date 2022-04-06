@@ -10,11 +10,11 @@ class Settings(BaseSettings):
     DB_NAME: str = ""
     DB_USER: str = ""
     DB_PASSWORD: str = ""
-    
+
     APP_PATH: str = os.path.abspath(".")
     DATA_PATH: str = os.path.join(APP_PATH, "data")
     APP_VERBOSITY: str = "DEBUG"
-    
+
     class Config:
         case_sensitive = True
 
@@ -31,4 +31,8 @@ class Settings(BaseSettings):
 
 
 # define the settings
+<<<<<<< HEAD
 settings = Settings()
+=======
+settings = Settings()
+>>>>>>> b2bf0647d9d135dadefe40829212c47c76cba078
