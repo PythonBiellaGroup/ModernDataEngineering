@@ -23,6 +23,8 @@ sodapy = "^2.1.0"
 pyodbc = "^4.0.32"
 apache-airflow = "2.2.4"
 openpyxl = "^3.0.9"
+plotly-express = "^0.4.1"
+matplotlib = "^3.5.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"
