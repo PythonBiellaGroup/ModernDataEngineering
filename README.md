@@ -71,6 +71,18 @@ Inside this repository you can find:
 4. Some notebooks and queries for explorative analysis
 
 
+## Streamlit ui interface
+
+Since this repository is a monorepo, inside the `app` folder you can find the multipage application streamlit containing the dashboards.
+
+To use this application you need to create inside the .streamlit folder the `secrets.toml` file with these keys
+- server = `address of db`
+- database = `name of db`
+- username = `username of db`
+- password = `password of db`
+
+The credentials are for sql server, in particular for azure sql server that we used for this tutorial.
+
 ## Useful commands
 
 ```bash
@@ -148,6 +160,7 @@ Be carefull not to install virtualenv via `apt` on linux, but use virtualenv by 
 - [Airflow Production Deployment](https://airflow.apache.org/docs/apache-airflow/1.10.14/production-deployment.html)
 - [Airflow with Redis and Celery](https://medium.com/codex/how-to-scale-out-apache-airflow-2-0-with-redis-and-celery-3e668e003b5c)
 - [Pydantic settings management](https://pydantic-docs.helpmanual.io/usage/settings/)
+- [Microsoft ODBC driver installation](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15)
 
 If you want to **monitor and control** the ETL you have to connect to the web interface.
 - If you run this on a server don't forget to forward the port via ssh (see Useful commands section behind)
