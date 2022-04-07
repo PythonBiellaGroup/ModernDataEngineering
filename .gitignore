@@ -21,7 +21,7 @@ saved_models
 
 #Custom rules
 
-!.env
+.env
 .python-version
 logs
 *.csv
