@@ -6,8 +6,6 @@ In this repository we have created a dashboard for Lombardia Italian Healthcare 
 
 This is just a test and sample experiment
 
-<<<<<<< HEAD
-=======
 ## What we talk
 
 1. how to define the cluster
@@ -18,14 +16,13 @@ This is just a test and sample experiment
 6. xcom transfer
 7. plugins
 
->>>>>>> b2bf0647d9d135dadefe40829212c47c76cba078
 ## Status
 - Create DAGS for data import on different sources
 - Create DAGS for data manipulation
 - Ingest new data into db
 - Create visualization and analysis on streamlit dashboard
 
-Completed
+**Completed**
 - streamlit template
 - airflow cluster
 - project setup
@@ -40,6 +37,29 @@ Completed
 - Folium (for map visualization)
 - Pydantic
 - Sqlalchemy (pyodbc)
+
+If you want to use SQL Server you have to install **odbc microsoft sql server libraries**.
+
+On linux you can follow [this guide](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15)
+
+For us the code in the official website is not working, so we have done this procedure to install the drivers:
+```bash 
+#on ubuntu 20.04
+sudo apt update
+sudo apt upgrade -y
+sudo curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+echo 'deb [arch=amd64,armhf,arm64] https://packages.microsoft.com/ubuntu/20.04/prod focal main' > sudo /etc/apt/sources.list.d/mssql-release.list 
+sudo apt-get update
+sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
+sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18
+echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+echo 'export PATH="$PATH:/opt/mssql-tools17/bin"' >> ~/.bashrc
+echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.zshrc
+echo 'export PATH="$PATH:/opt/mssql-tools17/bin"' >> ~/.zshrc
+source ~/.bashrc
+sudo apt-get install -y unixodbc-dev
+```
 
 ## Repository and code
 

@@ -2,6 +2,17 @@ import streamlit as st
 
 
 def app():
+    
+    # Hide Streamlit footer
+    hide_streamlit_style = """
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                header {visibility: hidden;}
+                </style>
+                """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    
     st.title("Python Biella Group")
     st.subheader("Streamlit webapp")
 
@@ -20,4 +31,4 @@ def app():
     #     "./app/static/images/airtag.png",
     #     width=800,
     # )
-    st.image("./app/static/images/data_flow.png", width=800)
+    # st.image("./app/static/images/data_flow.png", width=800)

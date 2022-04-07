@@ -14,7 +14,7 @@ ENV YOUR_ENV=${YOUR_ENV} \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=1.1.6 \
+    POETRY_VERSION=1.1.13 \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
 
@@ -22,7 +22,7 @@ ENV YOUR_ENV=${YOUR_ENV} \
 #RUN apt-get update && apt-get install -y curl && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
 
 # Install Python
-RUN apt-get update && apt-get install -y python3.8 python3-pip
+RUN apt-get update && apt-get install -y python3.8 python3-pip python-is-python3
 
 # Install Git
 RUN apt-get update && \
@@ -30,7 +30,12 @@ RUN apt-get update && \
     apt-get install -y git
 
 # Install poetry dependencies
-RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y libpq-dev gcc curl
+RUN DEBIAN_FRONTEND=noninteractive apt-get update \
+    && apt-get install -y --no-install-recommends \
+    vim libpq-dev gcc curl openssh-client git unixodbc-dev libxml2-dev libxslt1-dev zlib1g-dev g++\
+    && apt-get autoremove -yqq --purge \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* 
 
 ##########################
 # Project Python definition
@@ -42,15 +47,6 @@ COPY . .
 # Install poetry - respects $POETRY_VERSION & $POETRY_HOME
 RUN pip install "poetry==$POETRY_VERSION"
 
-# Install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
-# RUN poetry config virtualenvs.path $VENV_PATH
-# RUN poetry config virtualenvs.create true
-# RUN poetry config virtualenvs.in-project false
-# RUN poetry install --no-interaction --no-ansi
-
 # Project initialization:
 RUN poetry config virtualenvs.create false \
     && poetry install $(test "$YOUR_ENV" = production) --no-dev --no-interaction --no-ansi
-
-
-#Launch the main (if required)
