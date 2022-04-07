@@ -6,6 +6,8 @@ x-airflow-common:
   build:
       dockerfile: ./Docker/airflow.dockerfile
       context: .
+  env_file:
+    - .env
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -19,11 +21,26 @@ x-airflow-common:
     AIRFLOW__EMAIL__EMAIL_BACKEND: 'airflow.utils.email.send_email_smtp'
     AIRFLOW__SCHEDULER__ALLOW_TRIGGER_IN_FUTURE: 'true'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
+    DB_ADDRESS: ${DB_ADDRESS:-docker}
+    DB_NAME: ${DB_NAME:-docker}
+    DB_NAME_EXTERNAL: ${DB_NAME_EXTERNAL:-docker}
+    DB_USER: ${DB_USER:-docker}
+    DB_PASSWORD: ${DB_PASSWORD:-docker}
+    BLOB_CONN_STR: ${BLOB_CONN_STR:-docker}
+    BLOB_CONTAINER: ${BLOB_CONTAINER:-docker}
+    BLOB_NAME: ${BLOB_NAME:-docker}
+    API_URL: ${API_URL:-docker}
+    LINK_WEB: ${LINK_WEB:-docker}
+    API_DATA_URL: ${API_DATA_URL:-'dati.lombardia.it'}
+    API_DATA_SET: ${API_DATA_SET:-'3rtw-8p48'}
+    API_DATA_TOKEN: ${API_DATA_TOKEN:-'docker'}
+    CHROME_DRIVER_PATH: ${CHROME_DRIVER_PATH:-docker}
   volumes:
     - ./airflow/dags:/opt/airflow/dags
     - ./airflow/logs:/opt/airflow/logs
     - ./airflow/plugins:/opt/airflow/plugins
     - ./airflow/scheduler:/opt/airflow/scheduler
+    - ./airflow/data:/opt/airflow/data
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     &airflow-common-depends-on

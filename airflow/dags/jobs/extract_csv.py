@@ -1,8 +1,8 @@
 import os
 import pandas as pd
 import numpy as np
-from ..common import config
-from ..common import utils
+from airflow.dags.common import config
+from airflow.dags.common import utils
 
 
 def import_ospedali(file_path: str, file_name: str):

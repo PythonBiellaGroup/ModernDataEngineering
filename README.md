@@ -61,6 +61,30 @@ source ~/.bashrc
 sudo apt-get install -y unixodbc-dev
 ```
 
+## Secrets and settings
+
+If you want to pass some secrets and settings to the airflow cluster to be used inside the DAG you have to create a `.env` file in the root of the repository because launching the `docker-compose.yml`.
+
+All the secrets will be read by airflow and will be used within the cluster by dags.
+
+All the settings that you can place inside the `.env` file are:
+- AIRFLOW_UID = the user id code for the user inside the cluster 
+- AIRFLOW_GID = the group id code for the user inside the cluster 
+- DB_ADDRESS = the azure sql db address
+- DB_NAME = the azure sql db name
+- DB_NAME_EXTERNAL = the azure sql external db name (final staging db)
+- DB_USER = the name of the user of the azure db 
+- DB_PASSWORD = the password for the db user
+- BLOB_CONN_STR = the connection string for the azure blob storage
+- BLOB_CONTAINER = the name of the container in the azure blob storage
+- BLOB_NAME = the name of the blob you want to use (csv file)
+- API_URL = the url of the api you want to crawl
+- LINK_WEB = the link of online resources
+- API_DATA_URL = the socrata data url
+- API_DATA_SET = the socrata dataset id and name you want to download
+- API_DATA_TOKEN = the datatoken to connect to socrata apis
+- CHROME_DRIVER_PATH = the place where the selenium chrome driver is inside the cluster
+
 ## Repository and code
 
 This is a monorepo, so all the code is included here.  
@@ -161,6 +185,11 @@ Be carefull not to install virtualenv via `apt` on linux, but use virtualenv by 
 - [Airflow with Redis and Celery](https://medium.com/codex/how-to-scale-out-apache-airflow-2-0-with-redis-and-celery-3e668e003b5c)
 - [Pydantic settings management](https://pydantic-docs.helpmanual.io/usage/settings/)
 - [Microsoft ODBC driver installation](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15)
+- [Airflow sensors](https://marclamberti.com/blog/airflow-sensors/)
+- [Airflow task groups](https://marclamberti.com/blog/airflow-taskgroups-all-you-need-to-know/)
+- [Airflow timetable](https://marclamberti.com/blog/airflow-timetable-schedule-your-dags-like-never-before/)
+- [Airflow trigger rules](https://marclamberti.com/blog/airflow-trigger-rules-all-you-need-to-know/)
+- [Airflow variables](https://marclamberti.com/blog/variables-with-apache-airflow/)
 
 If you want to **monitor and control** the ETL you have to connect to the web interface.
 - If you run this on a server don't forget to forward the port via ssh (see Useful commands section behind)

@@ -1,8 +1,8 @@
 import os
 
-AIRFLOW_FOLDER: str = os.path.abspath("../..")
+AIRFLOW_FOLDER: str = os.path.abspath(".")
 DAGS_FOLDER: str = os.path.join(AIRFLOW_FOLDER, "dags")
-DATA_FOLDER: str = os.path.join(DAGS_FOLDER, "data")
+DATA_FOLDER: str = os.path.join(AIRFLOW_FOLDER, "data")
 
 # database credentials
 DB_ADDRESS: str = os.getenv("DB_ADDRESS", "localhost")
@@ -30,3 +30,7 @@ LINK_WEB: str = os.getenv(
 API_DATA_URL: str = os.getenv("API_DATA_URL", "dati.lombardia.it")
 API_DATA_SET: str = os.getenv("API_DATA_SET", "3rtw-8p48")
 API_DATA_TOKEN: str = os.getenv("API_DATA_TOKEN", "qEei2HKE5SldzRBJyNJqp9Wjw")
+
+CHROME_DRIVER_PATH: str = os.getenv(
+    "CHROME_DRIVER_PATH", "/opt/airflow/drivers/chromedriver"
+)

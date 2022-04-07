@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from ..common import config
+from airflow.dags.common import config
 from azure.storage.blob import BlobServiceClient
 
 
