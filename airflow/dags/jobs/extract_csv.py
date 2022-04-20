@@ -74,18 +74,7 @@ def rename_columns(df):
     return df
 
 
-def save_result(df: pd.DataFrame):
-
-    try:
-        file_path = os.path.join(config.DATA_FOLDER, "ospedali_result.csv")
-        df.to_csv(file_path, index=False)
-        return True
-    except Exception as message:
-        raise Exception(f"Error while saving the result: {message}")
-        return False
-
-
-def launch_ospedali(file_name: str):
+def launch_ospedali(file_name: str, ti):
     if not file_name:
         file_name = "ospedali.csv"
 
@@ -103,6 +92,8 @@ def launch_ospedali(file_name: str):
     df_ospedali = rename_columns(df_ospedali)
 
     # save the result
-    result = save_result(df_ospedali)
+    result = utils.save_result(df_ospedali, "ospedali_result.csv")
+
+    ti.xcom_push(key="ospedali_result", value="ospedali_result.csv")
 
     return result

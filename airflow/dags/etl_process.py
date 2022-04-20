@@ -1,8 +1,9 @@
 import datetime
+import json
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
-from airflow.hooks.base_hook import BaseHook
+# from airflow.hooks.base_hook import BaseHook
 
 default_args = {
     "owner": "airflow",

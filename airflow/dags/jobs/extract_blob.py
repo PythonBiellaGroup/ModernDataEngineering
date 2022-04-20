@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from airflow.dags.common import config
+from airflow.dags.common import utils
 from azure.storage.blob import BlobServiceClient
 
 
@@ -44,6 +45,10 @@ def read_file_blob():
     return df
 
 
-def launch_blob():
+def launch_blob(ti):
     download_file_blob()
-    read_file_blob()
+    df = read_file_blob()
+    filename = "popolazione.csv"
+    utils.save_result(df, filename)
+
+    ti.xcom_push(key="popolazione_dataset", value=filename)

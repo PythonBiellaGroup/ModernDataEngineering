@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import json
 from datetime import datetime, timedelta
 
 from airflow import DAG
@@ -9,6 +10,19 @@ from airflow.operators.python import PythonOperator
 from airflow.exceptions import AirflowSensorTimeout
 from airflow.operators.dummy import DummyOperator
 from airflow.contrib.sensors.file_sensor import FileSensor
+from airflow.models.connection import Connection
+
+c = Connection(
+    conn_id="some_conn",
+    conn_type="fs",
+    description="FileSensor file system connection",
+    host="myhost.com",
+    login="admin",
+    password="admin",
+    extra=json.dumps(dict(this_param="some val", that_param="other val*")),
+)
+print(f"AIRFLOW_CONN_{c.conn_id.upper()}='{c.get_uri()}'")
+
 
 FILE_PATH = "/opt/airflow/data"
 
@@ -105,7 +119,7 @@ sensor_extract = FileSensor(
     filepath="/opt/airflow/data/extracted.csv",
     poke_interval=15,
     timeout=15 * 60,
-    fs_conn_id="conn_filesensor_extract",
+    fs_conn_id="some_conn",
 )
 
 start_op = DummyOperator(task_id="start_task", dag=dag)
@@ -116,4 +130,10 @@ last_op = DummyOperator(task_id="last_task", dag=dag)
 #     task_id="run_this_last", python_callable=run_also_this_func
 # )
 
-start_op >> run_python_extractor >> sensor_extract >> [run_python_transform, run_python_group] >> last_op
+(
+    start_op
+    >> run_python_extractor
+    >> sensor_extract
+    >> [run_python_transform, run_python_group]
+    >> last_op
+)

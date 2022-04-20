@@ -8,6 +8,8 @@ from airflow.contrib.sensors.file_sensor import FileSensor
 
 from airflow.dags.jobs.extract_blob import launch_blob
 from airflow.dags.jobs.check_stuff import check_variables
+from airflow.dags.jobs.import_db import insert_db
+from airflow.dags.jobs.extract_db import extract_db
 
 FILE_PATH = "/opt/airflow/data"
 
@@ -39,21 +41,33 @@ dag = DAG(
 )
 
 run_variables_check = PythonOperator(
-    task_id="variable_check", python_callable=check_variables, dag=dag
+    task_id="variable_check",
+    python_callable=check_variables,
+    dag=dag,
+    op_kwargs={"state": "state_test"},
 )
 
-run_csv_extractor = BashOperator(
-    task_id="bash_extractor",
+run_ospedali_extractor = BashOperator(
+    task_id="ospedali_extractor",
     bash_command="python /opt/airflow/dags/jobs/extract_csv.py launch_ospedali",
     dag=dag,
 )
 
-run_blob_extractor = PythonOperator(
-    task_id="python_extractor", python_callable=launch_blob, dag=dag
+run_popolazione_extractor = PythonOperator(
+    task_id="popolazione_extractor", python_callable=launch_blob, dag=dag
+)
+
+run_performance_extractor = PythonOperator(
+    task_id="performance_extractor", python_callable=extract_db, dag=dag
+)
+
+
+save_result_db = PythonOperator(
+    task_id="save_result_db", python_callable=insert_db, dag=dag
 )
 
 ## REMEMBER TO CREATE A file_check (fs) connection on admin > connections
-sensor_extract_csv = FileSensor(
+sensor_extract_ospedali = FileSensor(
     task_id="sensor_extract_ospedali",
     mode="reschedule",
     on_failure_callback=_failure_callback,
@@ -62,11 +76,21 @@ sensor_extract_csv = FileSensor(
     timeout=15 * 60,
     fs_conn_id="file_check",
 )
-sensor_extract_blob = FileSensor(
+sensor_extract_popolazione = FileSensor(
     task_id="sensor_extract_popolazione",
     mode="reschedule",
     on_failure_callback=_failure_callback,
-    filepath="/opt/airflow/data/popolazione_lombardia.csv",
+    filepath="/opt/airflow/data/popolazione.csv",
+    poke_interval=15,
+    timeout=15 * 60,
+    fs_conn_id="file_check",
+)
+
+sensor_extract_performance = FileSensor(
+    task_id="sensor_extract_performance",
+    mode="reschedule",
+    on_failure_callback=_failure_callback,
+    filepath="/opt/airflow/data/performance.csv",
     poke_interval=15,
     timeout=15 * 60,
     fs_conn_id="file_check",
@@ -76,10 +100,9 @@ start_op = DummyOperator(task_id="start_task", dag=dag)
 mid_op = DummyOperator(task_id="mid_task", dag=dag)
 last_op = DummyOperator(task_id="last_task", dag=dag)
 
-# run_this_task_too = PythonOperator(
-#     task_id="run_this_last", python_callable=run_also_this_func
-# )
 
-run_variables_check
-start_op >> run_csv_extractor >> sensor_extract_csv >> mid_op
-start_op >> run_variables_check >> run_blob_extractor >> sensor_extract_blob >> mid_op
+start_op >> run_variables_check >> run_ospedali_extractor >> sensor_extract_ospedali >> mid_op >> save_result_db >> last_op
+
+start_op >> run_variables_check >> run_popolazione_extractor >> sensor_extract_popolazione >> mid_op >> save_result_db >> last_op
+
+start_op >> run_variables_check >> run_performance_extractor >> sensor_extract_performance >> mid_op >> save_result_db >> last_op

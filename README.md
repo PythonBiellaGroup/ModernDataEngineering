@@ -155,7 +155,17 @@ You can add your machine configuration inside the ssh config file for your user:
 
 Collection of comments, info and problems that we found during the development and how to fix them
 
-**pyodbc**
+#### Airflow manual configuration
+
+If you want to use `FileSensor` capabilities, you have to manual create the connection going to the web interface to: Admin  > Connections and create a new connection to read the files in the machine.
+
+If you want to know more about FileSensor, please refer to this [guide](https://marclamberti.com/blog/airflow-sensors/)
+
+You can also specify connections programmatically, please referer to the [official documentation](https://airflow.apache.org/docs/apache-airflow/stable/howto/connection.html) if you want to know more.
+
+
+
+#### pyodbc
 
 To use **pyodbc** on linux you have to install the following dependencies:
 `sudo apt install unixodbc-dev`
@@ -165,7 +175,7 @@ We suggest also on linux and docker to install those packages:
 sudo apt install vim libpq-dev gcc curl openssh-client git unixodbc-dev libxml2-dev libxslt1-dev zlib1g-dev g++
 ```
 
-**psycopg library**
+#### psycopg library
 
 To use the system with psycopg2 for the postgres database connection it's important to install in your system (linux-based) the requirements: `sudo apt-get install libpq-dev`
 
@@ -190,6 +200,9 @@ Be carefull not to install virtualenv via `apt` on linux, but use virtualenv by 
 - [Airflow timetable](https://marclamberti.com/blog/airflow-timetable-schedule-your-dags-like-never-before/)
 - [Airflow trigger rules](https://marclamberti.com/blog/airflow-trigger-rules-all-you-need-to-know/)
 - [Airflow variables](https://marclamberti.com/blog/variables-with-apache-airflow/)
+- [Airflow xcom guide](https://marclamberti.com/blog/airflow-xcom/)
+- [Airflow to execute SQL](https://www.astronomer.io/guides/airflow-sql-tutorial/)
+- [Airflow plugins](https://www.astronomer.io/guides/using-airflow-plugins/)
 
 If you want to **monitor and control** the ETL you have to connect to the web interface.
 - If you run this on a server don't forget to forward the port via ssh (see Useful commands section behind)
