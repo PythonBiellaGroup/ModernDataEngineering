@@ -71,7 +71,7 @@ sensor_extract_ospedali = FileSensor(
     task_id="sensor_extract_ospedali",
     mode="reschedule",
     on_failure_callback=_failure_callback,
-    filepath="/opt/airflow/data/ospedali.csv",
+    filepath="/opt/airflow/data/ospedali_result.csv",
     poke_interval=15,
     timeout=15 * 60,
     fs_conn_id="file_check",
@@ -90,7 +90,7 @@ sensor_extract_performance = FileSensor(
     task_id="sensor_extract_performance",
     mode="reschedule",
     on_failure_callback=_failure_callback,
-    filepath="/opt/airflow/data/performance.csv",
+    filepath="/opt/airflow/data/performance_dataset.csv",
     poke_interval=15,
     timeout=15 * 60,
     fs_conn_id="file_check",
@@ -101,8 +101,32 @@ mid_op = DummyOperator(task_id="mid_task", dag=dag)
 last_op = DummyOperator(task_id="last_task", dag=dag)
 
 
-start_op >> run_variables_check >> run_ospedali_extractor >> sensor_extract_ospedali >> mid_op >> save_result_db >> last_op
+(
+    start_op
+    >> run_variables_check
+    >> run_ospedali_extractor
+    >> sensor_extract_ospedali
+    >> mid_op
+    >> save_result_db
+    >> last_op
+)
 
-start_op >> run_variables_check >> run_popolazione_extractor >> sensor_extract_popolazione >> mid_op >> save_result_db >> last_op
+(
+    start_op
+    >> run_variables_check
+    >> run_popolazione_extractor
+    >> sensor_extract_popolazione
+    >> mid_op
+    >> save_result_db
+    >> last_op
+)
 
-start_op >> run_variables_check >> run_performance_extractor >> sensor_extract_performance >> mid_op >> save_result_db >> last_op
+(
+    start_op
+    >> run_variables_check
+    >> run_performance_extractor
+    >> sensor_extract_performance
+    >> mid_op
+    >> save_result_db
+    >> last_op
+)

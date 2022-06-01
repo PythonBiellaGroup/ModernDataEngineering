@@ -13,7 +13,7 @@ def check_if_file_exists(file):
 def save_result(df: pd.DataFrame, filename: str):
 
     try:
-        file_path = os.path.join(DATA_FOLDER)
+        file_path = os.path.join(DATA_FOLDER, filename)
         df.to_csv(file_path, index=False)
         return True
     except Exception as message:

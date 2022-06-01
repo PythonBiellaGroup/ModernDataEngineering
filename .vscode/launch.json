@@ -21,7 +21,7 @@
       "type": "python",
       "request": "launch",
       "module": "streamlit",
-      "args": ["run", "${workspaceFolder}/app/main.py"],
+      "args": ["run", "${workspaceFolder}/app/main.py", "--server.port", "8502"],
       "cwd": "${workspaceFolder}",
       "env": {
         "PYTHONPATH": "${cwd}"

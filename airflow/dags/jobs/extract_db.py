@@ -25,5 +25,5 @@ def extract_db(ti):
     df = drop_columns(df)
 
     # save to disk
-    utils.save_result(df, "ospedali_result.csv")
+    utils.save_result(df, "performance_dataset.csv")
     ti.xcom_push(key="performance_dataset", value="performance_dataset.csv")

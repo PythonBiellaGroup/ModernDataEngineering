@@ -11,8 +11,8 @@ services:
     ports:
       - "8501:8501"
     # volumes:
-      # persist the data of the dasbhboard
-      # - ${DEPLOY_VOLUMES_DIR:-/opt/streamlit}:/streamlit/data
+    #   #persist the data of the dasbhboard
+    #   - ${DEPLOY_VOLUMES_DIR:-/opt/streamlit}:/streamlit/data
 
 # volumes:
 #   dashboard-data: null

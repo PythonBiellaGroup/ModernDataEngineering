@@ -32,13 +32,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
 # Install sql server odbc drivers
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-    && sudo apt-get update \
-    && sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 \
-    && sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17 \
-    && sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18 \
-    && echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc \
-    && echo 'export PATH="$PATH:/opt/mssql-tools17/bin"' >> ~/.bashrc \
-    && sudo apt-get install -y unixodbc-dev libgssapi-krb5-2
+    && apt update \
+    && ACCEPT_EULA=Y apt install -y msodbcsql18 \
+    && ACCEPT_EULA=Y apt install -y msodbcsql17 \
+    && ACCEPT_EULA=Y apt install -y mssql-tools18 \
+    && echo 'PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc \
+    && apt-get install -y unixodbc-dev libgssapi-krb5-2
 
 
 # Install project libraries
