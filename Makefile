@@ -1,7 +1,7 @@
 .PHONY: docker
 
 airflow_launch:
-	docker-compose up --build -d --remove-orphans
+	docker-compose up --build -d
 
 airflow_clean:
 	docker-compose down -v

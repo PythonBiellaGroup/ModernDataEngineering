@@ -47,12 +47,13 @@ For us the code in the official website is not working, so we have done this pro
 #on ubuntu 20.04
 sudo apt update
 sudo apt upgrade -y
-sudo curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-echo 'deb [arch=amd64,armhf,arm64] https://packages.microsoft.com/ubuntu/20.04/prod focal main' > sudo /etc/apt/sources.list.d/mssql-release.list 
-sudo apt-get update
-sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
-sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
-sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18
+sudo su
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+apt-get update
+ACCEPT_EULA=Y apt-get install -y msodbcsql18
+ACCEPT_EULA=Y apt-get install -y msodbcsql17
+ACCEPT_EULA=Y apt-get install -y mssql-tools18
 echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
 echo 'export PATH="$PATH:/opt/mssql-tools17/bin"' >> ~/.bashrc
 echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.zshrc
