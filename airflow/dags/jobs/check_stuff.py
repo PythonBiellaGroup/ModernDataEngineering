@@ -9,8 +9,8 @@ def check_variables(state, ti):
     print(f"Data folder: {config.DATA_FOLDER}")
 
     TESTONE = Variable.get("TESTONE")
-    TESTONE_NEW = Variable.set("TESTONE_NEW", state)
+    # TESTONE_NEW = Variable.set("TESTONE_NEW", state)
     print(f"TESTONE: {TESTONE}")
-    print(f"TESTONE: {TESTONE_NEW}")
+    # print(f"TESTONE: {TESTONE_NEW}")
 
     ti.xcom_push(key="TESTONE", value=TESTONE)

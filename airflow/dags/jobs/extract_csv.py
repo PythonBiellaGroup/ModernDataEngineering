@@ -92,8 +92,9 @@ def launch_ospedali(file_name: str, ti):
     df_ospedali = rename_columns(df_ospedali)
 
     # save the result
-    result = utils.save_result(df_ospedali, "ospedali_result.csv")
+    filename = "ospedali_result.csv"
+    utils.save_result(df_ospedali, filename)
 
-    ti.xcom_push(key="ospedali_result", value="ospedali_result.csv")
+    ti.xcom_push(key="ospedali_dataset", value=filename)
 
-    return result
+    # return result

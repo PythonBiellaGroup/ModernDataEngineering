@@ -7,9 +7,10 @@ from airflow.operators.dummy import DummyOperator
 from airflow.contrib.sensors.file_sensor import FileSensor
 
 from airflow.dags.jobs.extract_blob import launch_blob
-from airflow.dags.jobs.check_stuff import check_variables
 from airflow.dags.jobs.import_db import insert_db
 from airflow.dags.jobs.extract_db import extract_db
+
+from airflow.dags.jobs.check_stuff import check_variables
 
 FILE_PATH = "/opt/airflow/data"
 
@@ -40,12 +41,13 @@ dag = DAG(
     default_args=default_args,
 )
 
-run_variables_check = PythonOperator(
-    task_id="variable_check",
-    python_callable=check_variables,
-    dag=dag,
-    op_kwargs={"state": "state_test"},
-)
+# VARIABLE CHECK
+# run_variables_check = PythonOperator(
+#     task_id="variable_check",
+#     python_callable=check_variables,
+#     dag=dag,
+#     op_kwargs={"state": "state_test"},
+# )
 
 run_ospedali_extractor = BashOperator(
     task_id="ospedali_extractor",
@@ -101,9 +103,9 @@ mid_op = DummyOperator(task_id="mid_task", dag=dag)
 last_op = DummyOperator(task_id="last_task", dag=dag)
 
 
+# >> run_variables_check
 (
     start_op
-    >> run_variables_check
     >> run_ospedali_extractor
     >> sensor_extract_ospedali
     >> mid_op
@@ -111,9 +113,9 @@ last_op = DummyOperator(task_id="last_task", dag=dag)
     >> last_op
 )
 
+# >> run_variables_check
 (
     start_op
-    >> run_variables_check
     >> run_popolazione_extractor
     >> sensor_extract_popolazione
     >> mid_op
@@ -121,9 +123,9 @@ last_op = DummyOperator(task_id="last_task", dag=dag)
     >> last_op
 )
 
+# >> run_variables_check
 (
     start_op
-    >> run_variables_check
     >> run_performance_extractor
     >> sensor_extract_performance
     >> mid_op

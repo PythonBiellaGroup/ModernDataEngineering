@@ -9,7 +9,7 @@ services:
     environment:
       VERBOSITY: ${VERBOSITY:-INFO}
     ports:
-      - "8501:8501"
+      - "8505:8081"
     # volumes:
     #   #persist the data of the dasbhboard
     #   - ${DEPLOY_VOLUMES_DIR:-/opt/streamlit}:/streamlit/data

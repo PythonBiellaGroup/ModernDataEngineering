@@ -10,15 +10,19 @@ def insert_db(ti):
     try:
         cxn = db.establish_db_connection()
 
-        ospedali_dataset = ti.xcom_pull(key="ospedali_dataset")
+        # ospedali_dataset = ti.xcom_pull(key="ospedali_dataset")
         popolazione_dataset = ti.xcom_pull(
             key="popolazione_dataset", task_ids="popolazione_extractor"
         )
         performance_dataset = ti.xcom_pull(key="performance_dataset")
 
-        datasets = [ospedali_dataset, popolazione_dataset, performance_dataset]
+        # ospedali_dataset
+        datasets = [popolazione_dataset, performance_dataset]
+
+        print(f"Dataset names: f{datasets}")
 
         for dataset in datasets:
+            print(f"Inserting dataset: {dataset}")
 
             # read the dataset
             file_path = os.path.join(config.DATA_FOLDER, dataset)
@@ -32,7 +36,9 @@ def insert_db(ti):
             # insert the dataset into the sql table
             df.to_sql(dataset_name, con=cxn, if_exists="append", index=False)
 
-        cxn.dispose()
+            print(f"Dataset: {dataset} inserted successfully")
 
+        cxn.dispose()
+        print("All dataset inserted")
     except Exception as message:
-        raise Exception(f"Impossible to insert into db: {message}")
+        raise Exception(f"ERROR: Impossible to insert into db: {message}")
